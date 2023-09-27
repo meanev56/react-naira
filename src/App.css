@@ -7254,7 +7254,9 @@ sub {
 }
 
 .theiaStickySidebar {
-  -webkit-backface-visibility: hidden
+  -webkit-backface-visibility: hidden;
+  position: fixed;
+  
 }
 
 .jeg_normalise_top .theiaStickySidebar {
@@ -7264,7 +7266,8 @@ sub {
   transform: translate3d(0,50px,0);
   -webkit-transition: transform .3s;
   -o-transition: transform .3s;
-  transition: transform .3s
+  transition: transform .3s;
+  
 }
 
 .post-ajax-overlay {
@@ -18506,7 +18509,8 @@ ul.instagram-pics {
 }
 
 .elementor-element .jegStickyHolder {
-  width: 100%
+  width: 100%;
+  position: fixed;
 }
 
 @media only screen and (min-width: 736px) {

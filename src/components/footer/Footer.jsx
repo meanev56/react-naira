@@ -278,7 +278,7 @@ const Footer = () => {
                             className="jeg_meta_date"
                           >
                             <FaClock className="fa fa-clock-o" /> 
-                            {moment(allNews[0]?.modified).format("MMMM Do, YYYY")}
+                            {moment(allNews[1]?.modified).format("MMMM Do, YYYY")}
                           </div>
                         </div>
                       </div>
