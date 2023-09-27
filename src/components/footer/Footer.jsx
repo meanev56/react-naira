@@ -1,7 +1,64 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaAngleUp, FaClock, FaFacebook, FaInstagram, FaRss, FaTwitter, FaYoutube } from 'react-icons/fa'
+import makeAPICall from '../../helpers/apiUtils'
+import he from 'he'
+import moment from 'moment'
 
 const Footer = () => {
+  const [naijaNews, setNaijaNews] = useState([]);
+  const [allNews, setAllNews] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchNaijaNews = () => {
+    setLoading(true);
+    return makeAPICall({
+      path: "https://nairametrics.com/wp-json/wp/v2/posts", 
+      method: "GET",
+    })
+      .then((res) => {
+        setNaijaNews(res);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        throw err;
+      });
+  };
+
+  const fetchAllAfricaNews = () => {
+    setLoading(true);
+    return makeAPICall({
+      path: "https://nairametrics.com/wp-json/wp/v2/posts",
+      method: "GET",
+    })
+      .then((res) => {
+        setAllNews(res);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        throw err;
+      });
+  };
+
+  useEffect(() => {
+    fetchNaijaNews();
+    fetchAllAfricaNews();
+  }, []);
+
+  // Function to remove the <p> tag from the HTML string
+  const removePTag = (htmlString) => {
+    if (typeof document === "undefined") {
+      return null; // or handle the absence of localStorage according to your requirements
+    }
+    const div = document.createElement("div");
+    div.innerHTML = htmlString;
+    return div.textContent;
+  };
+
+
+
+
   return (
     <div>
         <div className="home page-template page-template-template-builder page-template-template-builder-php page page-id-431441 wp-embed-responsive jeg_toggle_light jnews jsc_normal wpb-js-composer js-comp-ver-6.13.0 vc_responsive">
@@ -147,12 +204,12 @@ const Footer = () => {
                   <div className="jeg_postblock">
                     <div className="jeg_post jeg_pl_sm post-465191 post type-post status-publish format-standard has-post-thumbnail hentry category-business-news category-nigeria-business-news tag-mr-alkasim-uma tag-ncc">
                       <div className="jeg_thumb">
-                        <a href="https://nairametrics.com/2023/09/14/ncc-alerts-nigerians-on-increase-in-electronic-fraud-on-telecom-platforms/">
-                          <div className="thumbnail-container animate-lazy  size-715 ">
+                        <a href={naijaNews[0]?.link}>
+                          <div className=" animate-lazy  size-715 ">
                             <img
                               width={120}
                               height={86}
-                              src="images/jeg-empty.png"
+                              src={naijaNews[0]?.jetpack_featured_media_url}
                               className="attachment-jnews-120x86 size-jnews-120x86 lazyload wp-post-image"
                               alt="NCC"
                               decoding="async"
@@ -169,10 +226,9 @@ const Footer = () => {
                         <h3 property="headline" className="jeg_post_title">
                           <a
                             property="url"
-                            href="https://nairametrics.com/2023/09/14/ncc-alerts-nigerians-on-increase-in-electronic-fraud-on-telecom-platforms/"
+                            href={naijaNews[0]?.link}
                           >
-                            NCC alerts Nigerians on increase in electronic fraud
-                            on telecom platforms
+                             {he.decode(naijaNews[0]?.title?.rendered || "")}
                           </a>
                         </h3>
                         <div className="jeg_post_meta">
@@ -180,19 +236,21 @@ const Footer = () => {
                             property="datePublished"
                             className="jeg_meta_date"
                           >
-                            <FaClock className="fa fa-clock-o" /> September 14, 2023
+                            <FaClock className="fa fa-clock-o" /> 
+                            {moment(allNews[0]?.modified).format("MMMM Do, YYYY")}
+
                           </div>
                         </div>
                       </div>
                     </div>
                     <div className="jeg_post jeg_pl_sm post-465165 post type-post status-publish format-standard has-post-thumbnail hentry category-nigeria-business-news tag-lamata tag-lrmt">
                       <div className="jeg_thumb">
-                        <a href="https://nairametrics.com/2023/09/14/fg-certifies-lagos-blue-rail-as-safe/">
-                          <div className="thumbnail-container animate-lazy  size-715 ">
+                        <a href={naijaNews[1]?.link}>
+                          <div className=" animate-lazy  size-715 ">
                             <img
                               width={120}
                               height={86}
-                              src="images/jeg-empty.png"
+                              src={naijaNews[1]?.jetpack_featured_media_url}
                               className="attachment-jnews-120x86 size-jnews-120x86 lazyload wp-post-image"
                               alt="Gov Sanwo-Olu takes inaugural ride to flag off commencement of Blue Rail Mass Transi"
                               decoding="async"
@@ -209,9 +267,9 @@ const Footer = () => {
                         <h3 property="headline" className="jeg_post_title">
                           <a
                             property="url"
-                            href="https://nairametrics.com/2023/09/14/fg-certifies-lagos-blue-rail-as-safe/"
+                            href={naijaNews[1]?.link}
                           >
-                            FG certifies Lagos Blue Rail as safe
+                            {he.decode(naijaNews[1]?.title?.rendered || "")}
                           </a>
                         </h3>
                         <div className="jeg_post_meta">
@@ -219,7 +277,8 @@ const Footer = () => {
                             property="datePublished"
                             className="jeg_meta_date"
                           >
-                            <FaClock className="fa fa-clock-o" /> September 14, 2023
+                            <FaClock className="fa fa-clock-o" /> 
+                            {moment(allNews[0]?.modified).format("MMMM Do, YYYY")}
                           </div>
                         </div>
                       </div>
