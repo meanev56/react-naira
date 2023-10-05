@@ -7219,7 +7219,7 @@ sub {
       float: left
   }
 }
-
+ 
 @media (min-width: 992px) {
   .jeg_sidebar_left .jeg_main_content,.jeg_sidebar_left .jeg_main_content.col-md-8,.jeg_sidebar_left .jeg_main_content.vc_col-md-8 {
       float:right
@@ -7256,6 +7256,8 @@ sub {
 .theiaStickySidebar {
   -webkit-backface-visibility: hidden;
   position: fixed;
+  top: 0;
+  bottom: 0;
   
 }
 
@@ -7267,6 +7269,8 @@ sub {
   -webkit-transition: transform .3s;
   -o-transition: transform .3s;
   transition: transform .3s;
+  position: ;
+  top: ;
   
 }
 
